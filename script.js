@@ -1,3 +1,3 @@
 document.getElementById("bookBtn").addEventListener("click", function () {
-  window.open("https://script.google.com/macros/s/AKfycbxEtNrAYpba5MRgsNi7s3EfQjycMwMj90n7h_iDO3iexKaANBT7pj0_88tk1GQv7QwGZw/exec", "_blank");
+  window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec", "_blank");
 });
