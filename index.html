@@ -53,60 +53,20 @@
       .btn:hover {
         transform: scale(1.05);
       }
-
-      .hidden {
-        display: none;
-      }
-
-      iframe {
-        width: 100vw;
-        height: 100vh;
-        border: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        background: white;
-      }
-
-      .close-btn {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 10000;
-        background: #ff5252;
-        color: white;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-      }
     </style>
   </head>
   <body>
     <div class="card">
       <h1>🍌 Banana Nail Lab</h1>
       <p>Scarborough · 快速预约你的美甲时刻 ✨</p>
-      <button class="btn" onclick="openBooking()">立即预约</button>
+      <button class="btn" onclick="goToBooking()">立即预约</button>
     </div>
 
-    <iframe id="bookingFrame" class="hidden"></iframe>
-    <button id="closeBtn" class="close-btn hidden" onclick="closeBooking()">关闭</button>
-
     <script>
-      const bookingURL = "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true";
-
-      function openBooking() {
-        document.getElementById("bookingFrame").src = bookingURL;
-        document.getElementById("bookingFrame").classList.remove("hidden");
-        document.getElementById("closeBtn").classList.remove("hidden");
-      }
-
-      function closeBooking() {
-        document.getElementById("bookingFrame").classList.add("hidden");
-        document.getElementById("closeBtn").classList.add("hidden");
-        document.getElementById("bookingFrame").src = "";
+      function goToBooking() {
+        const scriptUrl =
+          "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true";
+        window.open(scriptUrl, "_blank");
       }
     </script>
   </body>
