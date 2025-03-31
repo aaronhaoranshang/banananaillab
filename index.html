@@ -1,74 +1,116 @@
-<!DOCTYPE html>
-<html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Banana Nail Lab - 预约入口</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        background: #fffefb;
-        font-family: "Segoe UI", Arial, sans-serif;
-        margin: 0;
-        padding: 40px 16px;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-      }
+<script>
+  let selectedDate = null;
+  let selectedTime = null;
+  let allSlots = {};
 
-      .card {
-        background: white;
-        border-radius: 20px;
-        padding: 32px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
-      }
+  const projectDurations = {
+    "本甲单色（2.5 hour）": 180,
+    "本甲款式（3 hour）": 180,
+    "延长单色（3 hour）": 180,
+    "延长款式（4+ hour）": 360,
+    "卸甲ONLY（30 min）": 30
+  };
 
-      .card h1 {
-        font-size: 26px;
-        color: #ff4081;
-        margin-bottom: 10px;
-      }
+  const shopCloseHour = 21;
 
-      .card p {
-        color: #666;
-        margin-bottom: 30px;
-      }
+  google.script.run.withSuccessHandler((data) => {
+    allSlots = data;
+    const availableDates = Object.keys(data);
+    if (availableDates.length === 0) {
+      document.getElementById("inlineCalendar").innerHTML =
+        "⚠️ 暂无可预约日期，请稍后再试";
+      return;
+    }
 
-      .btn {
-        background: linear-gradient(135deg, #ffb300, #ff4081);
-        color: white;
-        padding: 14px 32px;
-        border: none;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-      }
+    flatpickr("#inlineCalendar", {
+      inline: true,
+      locale: "zh",
+      dateFormat: "Y-m-d",
+      enable: availableDates,
+      onChange: function (_, dateStr) {
+        selectedDate = dateStr;
+        loadTimes(dateStr);
+      },
+    });
+  }).getAllAvailable();
 
-      .btn:hover {
-        transform: scale(1.05);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <h1>🍌 Banana Nail Lab</h1>
-      <p>Scarborough · 快速预约你的美甲时刻 ✨</p>
-      <button class="btn" onclick="goToBooking()">立即预约</button>
-    </div>
+  function loadTimes(dateStr) {
+    selectedTime = null;
+    document.getElementById("bookingForm").style.display = "none";
+    document.getElementById("selectedTime").value = "";
+    document.getElementById("result").textContent = "";
 
-    <script>
-      function goToBooking() {
-        const popup = window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true", "popup", "width=960,height=700,left=200,top=100");
-        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-          alert("请允许浏览器弹窗以完成预约！");
-        }
+    const container = document.getElementById("timeContainer");
+    container.innerHTML = "";
+
+    const times = allSlots[dateStr] || [];
+
+    if (times.length === 0) {
+      container.innerHTML = "这一天没有可预约时间，请选择其他日期。";
+      return;
+    }
+
+    times.forEach((time) => {
+      const btn = document.createElement("button");
+      btn.className = "time-btn";
+      btn.textContent = time;
+      btn.onclick = () => {
+        selectedTime = time;
+        document.getElementById("selectedTime").value =
+          selectedDate + " " + selectedTime;
+        document.getElementById("bookingForm").style.display = "flex";
+        document.getElementById("result").textContent = "";
+        document.getElementById("result").style.color = "";
+
+        // ⚠️ 根据所选时间判断可选项目
+        const [hour, minute] = selectedTime.split(":").map(Number);
+        const endLimit = new Date();
+        endLimit.setHours(shopCloseHour, 0, 0, 0);
+        const selectedStart = new Date();
+        selectedStart.setHours(hour, minute, 0, 0);
+
+        document.querySelectorAll("#project option").forEach((opt) => {
+          const label = opt.textContent;
+          const duration = projectDurations[label] || 0;
+          const estimatedEnd = new Date(selectedStart.getTime() + duration * 60000);
+          if (estimatedEnd > endLimit) {
+            opt.disabled = true;
+          } else {
+            opt.disabled = false;
+          }
+        });
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function submitBooking() {
+    const nickname = document.getElementById("nickname").value;
+    const wechat = document.getElementById("wechat").value;
+    const email = document.getElementById("email").value;
+    const project = document.getElementById("project").value;
+
+    if (!nickname || !wechat || !email || !selectedDate || !selectedTime || !project) {
+      alert("请填写所有信息并选择时间和项目");
+      return;
+    }
+
+    google.script.run.withSuccessHandler((res) => {
+      document.getElementById("result").textContent = res.message;
+      document.getElementById("result").style.color = res.success ? "green" : "red";
+
+      if (res.success) {
+        document.getElementById("bookingForm").reset();
+        document.getElementById("bookingForm").style.display = "none";
+        document.getElementById("selectedTime").value = "";
       }
-    </script>
-  </body>
-</html>
+    }).bookSlot({
+      nickname,
+      wechat,
+      email,
+      date: selectedDate,
+      time: selectedTime,
+      project: project,
+    });
+  }
+</script>
