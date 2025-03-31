@@ -1,18 +1,231 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banana Nail Lab 预约</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="main">
-    <h1>🍌 Banana Nail Lab</h1>
-    <p>Scarborough · 预约你的美甲时刻 ✨</p>
-    <button id="bookBtn">立即预约</button>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banana Nail Lab 预约</title>
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
 
-  <script src="script.js"></script>
-</body>
+      .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 24px;
+        max-width: 960px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .calendar-panel,
+      .time-panel {
+        flex: 1;
+        padding: 16px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+
+      #inlineCalendar {
+        width: 100%;
+        font-size: 1.1rem;
+      }
+
+      .time-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .time-btn {
+        padding: 12px;
+        border: 2px solid #3f51b5;
+        color: #3f51b5;
+        font-weight: 600;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .time-btn:hover {
+        background: #3f51b5;
+        color: white;
+      }
+
+      form {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      input,
+      select,
+      button {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 100%;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #43a047;
+      }
+
+      #result {
+        margin-top: 10px;
+        font-weight: bold;
+        white-space: pre-wrap;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="calendar-panel">
+        <h2>📅 请选择日期</h2>
+        <div id="inlineCalendar"></div>
+      </div>
+
+      <div class="time-panel">
+        <h2>可预约时间</h2>
+        <div id="timeContainer" class="time-buttons"></div>
+
+        <form id="bookingForm">
+          <select id="project" required>
+            <option value="">请选择项目</option>
+            <option>本甲单色（2.5 hour）</option>
+            <option>本甲款式（3 hour）</option>
+            <option>延长单色（3 hour）</option>
+            <option>延长款式（4+ hour）</option>
+            <option>卸甲ONLY（30 min）</option>
+          </select>
+          <input type="text" id="nickname" placeholder="昵称" required />
+          <input type="text" id="wechat" placeholder="微信号" required />
+          <input type="email" id="email" placeholder="邮箱" required />
+          <input type="text" id="selectedTime" disabled />
+          <button type="button" onclick="submitBooking()">确认预约</button>
+        </form>
+
+        <p id="result"></p>
+      </div>
+    </div>
+
+    <script>
+      let selectedDate = null;
+      let selectedTime = null;
+      let allSlots = {};
+
+      google.script.run.withSuccessHandler((data) => {
+        allSlots = data;
+        const availableDates = Object.keys(data);
+        if (availableDates.length === 0) {
+          document.getElementById("inlineCalendar").innerHTML =
+            "⚠️ 暂无可预约日期，请稍后再试";
+          return;
+        }
+
+        flatpickr("#inlineCalendar", {
+          inline: true,
+          locale: "zh",
+          dateFormat: "Y-m-d",
+          enable: availableDates,
+          onChange: function (_, dateStr) {
+            selectedDate = dateStr;
+            loadTimes(dateStr);
+          },
+        });
+      }).getAllAvailable();
+
+      function loadTimes(dateStr) {
+        selectedTime = null;
+        document.getElementById("bookingForm").style.display = "none";
+        document.getElementById("selectedTime").value = "";
+        document.getElementById("result").textContent = "";
+
+        const container = document.getElementById("timeContainer");
+        container.innerHTML = "";
+
+        const times = allSlots[dateStr] || [];
+
+        if (times.length === 0) {
+          container.innerHTML = "这一天没有可预约时间，请选择其他日期。";
+          return;
+        }
+
+        times.forEach((time) => {
+          const btn = document.createElement("button");
+          btn.className = "time-btn";
+          btn.textContent = time;
+          btn.onclick = () => {
+            selectedTime = time;
+            document.getElementById("selectedTime").value =
+              selectedDate + " " + selectedTime;
+            document.getElementById("bookingForm").style.display = "flex";
+            document.getElementById("result").textContent = "";
+            document.getElementById("result").style.color = "";
+          };
+          container.appendChild(btn);
+        });
+      }
+
+      function submitBooking() {
+        const nickname = document.getElementById("nickname").value;
+        const wechat = document.getElementById("wechat").value;
+        const email = document.getElementById("email").value;
+        const project = document.getElementById("project").value;
+
+        if (!nickname || !wechat || !email || !selectedDate || !selectedTime || !project) {
+          alert("请填写所有信息并选择时间和项目");
+          return;
+        }
+
+        google.script.run.withSuccessHandler((res) => {
+          document.getElementById("result").textContent = res.message;
+          document.getElementById("result").style.color = res.success ? "green" : "red";
+
+          if (res.success) {
+            document.getElementById("bookingForm").reset();
+            document.getElementById("bookingForm").style.display = "none";
+            document.getElementById("selectedTime").value = "";
+          }
+        }).bookSlot({
+          nickname,
+          wechat,
+          email,
+          date: selectedDate,
+          time: selectedTime,
+          project: project,
+        });
+      }
+    </script>
+  </body>
 </html>
