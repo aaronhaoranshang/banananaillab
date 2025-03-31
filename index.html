@@ -10,32 +10,36 @@
         padding: 0;
         background: #fffdf8;
         font-family: "Segoe UI", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
       }
 
-      .header {
+      .card {
         background: white;
-        padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        padding: 24px 32px;
         text-align: center;
-        position: sticky;
-        top: 0;
-        z-index: 10;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 40px;
+        max-width: 420px;
       }
 
-      .header h1 {
-        font-size: 24px;
+      .card h1 {
+        font-size: 26px;
         color: #ff4081;
-        margin: 0;
+        margin: 12px 0 8px;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 6px;
       }
 
-      .header p {
-        color: #777;
-        font-size: 14px;
-        margin: 6px 0 16px;
+      .card p {
+        color: #666;
+        font-size: 15px;
+        margin-bottom: 24px;
       }
 
       .btn {
@@ -44,34 +48,28 @@
         padding: 12px 30px;
         border: none;
         border-radius: 12px;
-        font-size: 16px;
+        font-size: 17px;
         font-weight: bold;
         cursor: pointer;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         transition: all 0.3s ease;
       }
 
       .btn:hover {
         transform: scale(1.05);
       }
-
-      .spacer {
-        height: 200px;
-      }
     </style>
   </head>
   <body>
-    <div class="header">
+    <div class="card">
       <h1>🍌 <span>Banana Nail Lab</span></h1>
       <p>Scarborough · 快速预约你的美甲时刻 ✨</p>
       <button class="btn" onclick="goToBooking()">立即预约</button>
     </div>
 
-    <div class="spacer"></div>
-
     <script>
       function goToBooking() {
-        window.open("https://script.google.com/macros/s/AAKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true", "_blank");
+        window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true", "_blank");
       }
     </script>
   </body>
