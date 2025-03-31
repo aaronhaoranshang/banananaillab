@@ -2,102 +2,117 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Banana Nail Lab 🍌 预约</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banana Nail Lab</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #f9f9f9;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #fffaf5;
       margin: 0;
       padding: 0;
       text-align: center;
     }
 
-    .main {
-      padding-top: 120px;
+    .container {
+      padding: 60px 20px;
     }
 
-    .popup-btn {
-      padding: 14px 32px;
+    .title {
+      font-size: 28px;
+      color: #ff4081;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .book-btn {
+      padding: 14px 28px;
       font-size: 18px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(to right, orange, hotpink);
+      background: linear-gradient(135deg, #ffb300, #ff4081);
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
     }
 
-    .popup-btn:hover {
+    .book-btn:hover {
       transform: scale(1.05);
     }
 
-    .popup-overlay {
+    #popup {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.4);
+      top: 5%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       z-index: 1000;
     }
 
-    .popup-frame {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 90%;
-      max-width: 960px;
-      height: 90%;
-      transform: translate(-50%, -50%);
-      border: none;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .popup-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: #f44336;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .popup-inner {
-      position: relative;
+    #popup iframe {
       width: 100%;
       height: 100%;
-      background: white;
+      border: none;
       border-radius: 16px;
-      overflow: hidden;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      font-weight: bold;
+      color: #999;
+      cursor: pointer;
+    }
+
+    #closeBtn:hover {
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      #popup {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="main">
-    <button class="popup-btn" onclick="openPopup()">🍌 点我开始预约</button>
+  <div class="container">
+    <div class="title">🍌 Banana Nail Lab</div>
+    <div class="subtitle">Scarborough · 预约你的美甲时刻</div>
+    <button class="book-btn" onclick="openBooking()">立即预约</button>
   </div>
 
-  <div class="popup-overlay" id="popup">
-    <div class="popup-inner">
-      <button class="popup-close" onclick="closePopup()">关闭</button>
-      <iframe class="popup-frame" src="https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec" allowfullscreen></iframe>
-    </div>
+  <div id="popup">
+    <button id="closeBtn" onclick="closePopup()">✕</button>
+    <iframe id="bookingFrame" src=""></iframe>
   </div>
 
   <script>
-    function openPopup() {
+    function openBooking() {
+      document.getElementById("bookingFrame").src = "https://script.google.com/macros/s/AKfycbxEtNrAYpba5MRgsNi7s3EfQjycMwMj90n7h_iDO3iexKaANBT7pj0_88tk1GQv7QwGZw/exec";
       document.getElementById("popup").style.display = "block";
     }
 
     function closePopup() {
       document.getElementById("popup").style.display = "none";
+      document.getElementById("bookingFrame").src = "";
     }
   </script>
 </body>
