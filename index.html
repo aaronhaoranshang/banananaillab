@@ -2,98 +2,98 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banana Nail Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Banana Nail Lab 🍌 预约</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
+      background: #f9f9f9;
       margin: 0;
-      background: #fafafa;
-      overflow-x: hidden;
+      padding: 0;
+      text-align: center;
     }
 
     .main {
-      text-align: center;
-      padding: 100px 20px;
+      padding-top: 120px;
     }
 
-    .btn {
+    .popup-btn {
       padding: 14px 32px;
       font-size: 18px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(135deg, #ffb300, #ff4081);
+      background: linear-gradient(to right, orange, hotpink);
       border: none;
       border-radius: 12px;
       cursor: pointer;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
     }
 
-    .btn:hover {
+    .popup-btn:hover {
       transform: scale(1.05);
     }
 
-    /* 弹窗样式 */
-    .popup {
+    .popup-overlay {
+      display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4);
       z-index: 1000;
     }
 
-    .popup-content {
-      position: relative;
-      width: 95%;
-      max-width: 1100px;
-      height: 90vh;
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .popup iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .close-btn {
+    .popup-frame {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #ff5252;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      max-width: 960px;
+      height: 90%;
+      transform: translate(-50%, -50%);
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #f44336;
       color: white;
       border: none;
       border-radius: 8px;
       padding: 6px 12px;
-      font-size: 14px;
       cursor: pointer;
-      z-index: 1001;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .popup-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
   <div class="main">
-    <h1>🍌 Banana Nail Lab</h1>
-    <p>Scarborough · 预约你的美甲时刻 ✨</p>
-    <button class="btn" onclick="openPopup()">点我开始预约</button>
+    <button class="popup-btn" onclick="openPopup()">🍌 点我开始预约</button>
   </div>
 
-  <div id="popup" class="popup" style="display: none;">
-    <div class="popup-content">
-      <button class="close-btn" onclick="closePopup()">关闭</button>
-      <iframe src="https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec" allowfullscreen></iframe>
+  <div class="popup-overlay" id="popup">
+    <div class="popup-inner">
+      <button class="popup-close" onclick="closePopup()">关闭</button>
+      <iframe class="popup-frame" src="https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec" allowfullscreen></iframe>
     </div>
   </div>
 
   <script>
     function openPopup() {
-      document.getElementById("popup").style.display = "flex";
+      document.getElementById("popup").style.display = "block";
     }
 
     function closePopup() {
