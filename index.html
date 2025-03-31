@@ -10,22 +10,33 @@
       background: #fffaf5;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px 24px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 90%;
     }
 
-    .container {
-      padding: 60px 20px;
-    }
-
-    .title {
+    h1 {
       font-size: 28px;
       color: #ff4081;
       margin-bottom: 12px;
     }
 
-    .subtitle {
+    p {
       color: #666;
       margin-bottom: 32px;
+      font-size: 16px;
     }
 
     .book-btn {
@@ -37,82 +48,25 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
     }
 
     .book-btn:hover {
       transform: scale(1.05);
     }
-
-    #popup {
-      display: none;
-      position: fixed;
-      top: 5%;
-      left: 5%;
-      width: 90%;
-      height: 90%;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-    }
-
-    #popup iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 16px;
-    }
-
-    #closeBtn {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      background: transparent;
-      border: none;
-      font-size: 20px;
-      font-weight: bold;
-      color: #999;
-      cursor: pointer;
-    }
-
-    #closeBtn:hover {
-      color: #333;
-    }
-
-    @media (max-width: 768px) {
-      #popup {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">🍌 Banana Nail Lab</div>
-    <div class="subtitle">Scarborough · 预约你的美甲时刻</div>
-    <button class="book-btn" onclick="openBooking()">立即预约</button>
-  </div>
-
-  <div id="popup">
-    <button id="closeBtn" onclick="closePopup()">✕</button>
-    <iframe id="bookingFrame" src=""></iframe>
+  <div class="card">
+    <h1>🍌 Banana Nail Lab</h1>
+    <p>Scarborough · 预约你的美甲时刻</p>
+    <button class="book-btn" onclick="goToBooking()">立即预约</button>
   </div>
 
   <script>
-    function openBooking() {
-      document.getElementById("bookingFrame").src = "https://script.google.com/macros/s/AKfycbxEtNrAYpba5MRgsNi7s3EfQjycMwMj90n7h_iDO3iexKaANBT7pj0_88tk1GQv7QwGZw/exec";
-      document.getElementById("popup").style.display = "block";
-    }
-
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("bookingFrame").src = "";
+    function goToBooking() {
+      window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec", "_blank");
     }
   </script>
 </body>
