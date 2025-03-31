@@ -64,9 +64,10 @@
 
     <script>
       function goToBooking() {
-        const scriptUrl =
-          "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true";
-        window.open(scriptUrl, "_blank");
+        const popup = window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true", "popup", "width=960,height=700,left=200,top=100");
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+          alert("请允许浏览器弹窗以完成预约！");
+        }
       }
     </script>
   </body>
