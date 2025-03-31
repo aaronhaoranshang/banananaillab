@@ -205,8 +205,10 @@
           document.querySelectorAll("#project option").forEach((opt) => {
             const label = opt.textContent;
             const duration = projectDurations[label] || 0;
-            const estimatedEnd = new Date(start.getTime() + duration * 60000);
-            opt.disabled = estimatedEnd > endLimit;
+            const dayEnd = new Date(start);
+            dayEnd.setHours(21, 0, 0, 0); // 设置为当天 21:00
+
+            opt.disabled = estimatedEnd > dayEnd;
           });
         };
         container.appendChild(btn);
