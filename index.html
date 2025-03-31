@@ -15,6 +15,7 @@
         align-items: center;
         min-height: 100vh;
       }
+
       .card {
         background: white;
         border-radius: 20px;
@@ -24,15 +25,18 @@
         max-width: 400px;
         width: 100%;
       }
+
       .card h1 {
         font-size: 26px;
         color: #ff4081;
         margin-bottom: 10px;
       }
+
       .card p {
         color: #666;
         margin-bottom: 30px;
       }
+
       .btn {
         background: linear-gradient(135deg, #ffb300, #ff4081);
         color: white;
@@ -45,6 +49,7 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         transition: all 0.3s ease;
       }
+
       .btn:hover {
         transform: scale(1.05);
       }
@@ -59,11 +64,10 @@
 
     <script>
       function goToBooking() {
-        // ✅ 一定要加上 `?direct=true` 才能跳转到日历页面
-        window.open(
-          "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true",
-          "_blank"
-        );
+        // ✅ 正确跳转 App Script Booking 页面
+        const bookingURL =
+          "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true";
+        window.open(bookingURL, "_blank");
       }
     </script>
   </body>
