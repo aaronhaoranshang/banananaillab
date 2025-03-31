@@ -1,72 +1,70 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <title>Banana Nail Lab - 预约入口</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
-  <style>
-    body {
-      background: #fffefb;
-      font-family: "Segoe UI", Arial, sans-serif;
-      margin: 0;
-      padding: 40px 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Banana Nail Lab - 预约入口</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        background: #fffefb;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 40px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .card {
+        background: white;
+        border-radius: 20px;
+        padding: 32px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+      .card h1 {
+        font-size: 26px;
+        color: #ff4081;
+        margin-bottom: 10px;
+      }
+      .card p {
+        color: #666;
+        margin-bottom: 30px;
+      }
+      .btn {
+        background: linear-gradient(135deg, #ffb300, #ff4081);
+        color: white;
+        padding: 14px 32px;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🍌 Banana Nail Lab</h1>
+      <p>Scarborough · 快速预约你的美甲时刻 ✨</p>
+      <button class="btn" onclick="goToBooking()">立即预约</button>
+    </div>
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 32px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    h1 {
-      font-size: 26px;
-      color: #ff4081;
-      margin-bottom: 10px;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #ffb300, #ff4081);
-      color: white;
-      padding: 14px 32px;
-      border: none;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>🍌 Banana Nail Lab</h1>
-    <p>Scarborough · 快速预约你的美甲时刻 ✨</p>
-    <button class="btn" onclick="goToBooking()">立即预约</button>
-  </div>
-
-  <script>
-    function goToBooking() {
-      const popup = window.open(
-        "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true",
-        "_blank"
-      );
-    }
-  </script>
-</body>
+    <script>
+      function goToBooking() {
+        // ✅ 一定要加上 `?direct=true` 才能跳转到日历页面
+        window.open(
+          "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true",
+          "_blank"
+        );
+      }
+    </script>
+  </body>
 </html>
