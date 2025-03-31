@@ -64,7 +64,14 @@
 
     <script>
       function goToBooking() {
-        window.open("https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true", "_blank");
+        const width = 1000;
+        const height = 700;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+
+        const url = "https://script.google.com/macros/s/AKfycbyXF8OrjITIBLy5R71_2fNz_PqzmHerPo37XqmNFTaQgbKYCpB-XCs5na4ZFV3mMvvIww/exec?direct=true";
+
+        window.open(url, "_blank", `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
       }
     </script>
   </body>
